@@ -26,7 +26,7 @@ def loginPage(request):
     return render(request,'users/login.html',context)
 
 def registerPage(request):
-    if request.user.is_authenticed:
+    if request.user.is_authenticated:
         return redirect('home')
     form = CreateUserForm()
     if request.method == 'POST':
