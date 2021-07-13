@@ -44,9 +44,9 @@ def registerPage(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def homePage(request):
     context={}
     return render(request,'users/home.html',context)
