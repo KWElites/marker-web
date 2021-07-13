@@ -50,3 +50,8 @@ def logoutUser(request):
 def homePage(request):
     context={}
     return render(request,'users/home.html',context)
+
+@login_required(login_url='login')
+def profilePage(request):
+    context={}
+    return render(request,'users/viewprofile.html',context)
