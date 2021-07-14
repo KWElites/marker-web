@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import CreateUserForm
+from .forms import CreateUserForm, ProfileForm
 
 # Create your views here.
 def loginPage(request):
@@ -30,11 +30,13 @@ def registerPage(request):
     if request.user.is_authenticated:
         return redirect('home')
     form = CreateUserForm()
+    profileForm = ProfileForm()
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
-        if form.is_valid():
+        profileForm = ProfileForm(request.POST)
+        if form.is_valid() and profileForm.is_valid():
             userObj = form.save()
-            defaultProfile = UserProfile(user = userObj)
+            defaultProfile = UserProfile(user = userObj, name = profileForm.cleaned_data.get('name'))
             defaultProfile.save()
             username = form.cleaned_data.get('username')
             messages.success(request,'Account was created for \''+username+'\' successfully')
@@ -42,7 +44,7 @@ def registerPage(request):
             return redirect('login')
 
 
-    context = {'form':form}
+    context = {'form':form, 'pform': profileForm}
     return render(request,'users/register.html',context)
 
 def logoutUser(request):
