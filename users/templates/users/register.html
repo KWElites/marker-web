@@ -81,6 +81,12 @@
 							<div class="input-group-append">
 								<span class="input-group-text"><i class="fas fa-user"></i></span>
 							</div>
+							{{pform.name}}
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
 							{{form.username}}
 						</div>
 						<div class="input-group mb-2">
@@ -109,6 +115,7 @@
 				</div>
                 
                 {{form.errors}}
+				{{pform.errors}}
 				<div class="mt-4">
 					<div class="d-flex justify-content-center links">
 						Already have an account? <a href="{% url 'login' %}" class="ml-2">Login</a>
@@ -124,10 +131,11 @@
 
 		//Query All input fields
 		var form_fields = document.getElementsByTagName('input')
-		form_fields[1].placeholder='Username..';
-		form_fields[2].placeholder='Email..';
-		form_fields[3].placeholder='Enter password...';
-		form_fields[4].placeholder='Re-enter Password...';
+		form_fields[1].placeholder='Name..';
+		form_fields[2].placeholder='Username..';
+		form_fields[3].placeholder='Email..';
+		form_fields[4].placeholder='Enter password...';
+		form_fields[5].placeholder='Re-enter Password...';
 
 
 		for (var field in form_fields){	
