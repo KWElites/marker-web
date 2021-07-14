@@ -1,4 +1,4 @@
-from users.models import UserProfile
+from users.models import Packages, UserProfile
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
@@ -63,5 +63,10 @@ def homePage(request):
 
 @login_required(login_url='login')
 def profilePage(request):
-    context={}
-    return render(request,'users/viewprofile.html',context)
+    user = request.user
+    user_packages = Packages.objects.filter(uId = user.id) 
+    context={
+        'user': user,
+        'user_packages': user_packages
+    }
+    return render(request, 'users/viewprofile.html', context)
