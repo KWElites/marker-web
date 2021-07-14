@@ -11,6 +11,7 @@ urlpatterns = [
     path('login/',views.loginPage,name="login"),
     path('logout/',views.logoutUser,name="logout"),
     path('register/',views.registerPage,name="register"),
+    path('profile/',views.profilePage,name="profile"),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
