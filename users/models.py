@@ -5,18 +5,20 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(default = 'profilePics/defaultPP.jpg', upload_to = 'profilePics')
-    company_name = models.CharField(max_length=30,default="Company")
+    name = models.CharField(max_length=30)
 
 class Packages(models.Model):
-    UID = models.ForeignKey(User,on_delete=models.RESTRICT)
-    PName = models.CharField(max_length=20)
-    PDescription = models.CharField(max_length=512)
-    PThumbnail = models.ImageField(default='package/Thumbnails/defaultTN.png')
+    uId = models.ForeignKey(User,on_delete=models.RESTRICT)
+    packageName = models.CharField(max_length=20)
+    packageDesc = models.CharField(max_length=512)
+    packageThumbnail = models.ImageField(default='package/thumbnails/defaultTN.png',upload_to='package/thumbnails')
+    packageItems = models.FileField(upload_to='package/packages',default='')
+
 
 class Logs(models.Model):
-    PID = models.ForeignKey(Packages,on_delete=models.RESTRICT)
-    UID = models.ForeignKey(User,on_delete=models.RESTRICT)
-    LAction = models.CharField(max_length=8)
-    LDescription = models.CharField(max_length=512)
-    LErrorCode = models.SmallIntegerField()
-    LActionStatus = models.BooleanField()
+    pId = models.ForeignKey(Packages,on_delete=models.RESTRICT)
+    uId = models.ForeignKey(User,on_delete=models.RESTRICT)
+    logAction = models.CharField(max_length=8)
+    logDesc = models.CharField(max_length=512)
+    logErrorCode = models.SmallIntegerField()
+    logActionStatus = models.BooleanField()
