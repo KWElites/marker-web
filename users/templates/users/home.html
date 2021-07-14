@@ -2,4 +2,9 @@
 
 <h1>Home</h1>
 <img src={{userP.avatar.url}}/>
-<span><a href="{% url 'logout' %}">Logout</a></span>
+
+<span>{% if request.user.is_authenticated %}
+   <a class="nav-link text-black font-weight-bold" href="{% url 'profile' %}">View Profile</a>| <a class="nav-link text-black font-weight-bold" href="{% url 'logout' %}">Logout</a>
+{% else %}
+   <a class="nav-link text-black font-weight-bold" href="{% url 'login' %}">Login</a> | <a class="nav-link text-black font-weight-bold" href="{% url 'register' %}">Register</a>
+{% endif %}</span>

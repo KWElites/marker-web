@@ -47,13 +47,19 @@ def registerPage(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
+
+#@login_required(login_url='login')
+def homePage(request):
+    if request.user.is_authenticated:
+        user = request.user
+        userProfile = UserProfile.objects.get(user_id = user.id)
+        context={"userP": userProfile}
+    else:
+        context={}
+    return render(request,'users/home.html',context)
 
 @login_required(login_url='login')
-def homePage(request):
-    if not request.user.is_authenticated:
-        return redirect('login')
-    user = request.user
-    userProfile = UserProfile.objects.get(user_id = user.id)
-    context={"userP": userProfile}
-    return render(request,'users/home.html',context)
+def profilePage(request):
+    context={}
+    return render(request,'users/viewprofile.html',context)
