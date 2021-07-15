@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm, ProfileForm, UploadPackageForm
 import zipfile
-from os import path
+import os
 
 # Create your views here.
 def loginPage(request):
@@ -83,6 +83,19 @@ def validZip(uploadedZip):
                 return False
     return True
 
+def extractPackage(uploadedZip):
+    images = ['jpg','png','jpeg']
+    newDir='media/package/packages/'+str(uploadedZip.id)
+    os.mkdir(newDir)
+    uploadedZip.packageImages = 'package/packages/'+str(uploadedZip.id)
+    uploadedZip.save()
+    with zipfile.ZipFile(uploadedZip.packageItems,'r') as z:
+        for i in z.namelist():
+            tempFileType = i.split('.')[-1]
+            tempFileType = tempFileType.lower()
+            if tempFileType in images:
+                z.extract(i,newDir)
+
 @login_required(login_url='login')
 def uploadPage(request):
     uploadForm = UploadPackageForm()
@@ -99,9 +112,8 @@ def uploadPage(request):
             if fileType != 'zip' or validZip(uploadedPackage.packageItems) == False:
                 return redirect('upload')
             uploadedPackage.save()
-            #print("PACKAGE PATH"+uploadedPackage.packageItems.url)
-            # while path.exists(uploadedPackage.packageItems.url) == False:
-            #     continue
+            #print(uploadedPackage.packageItems.url)
+            extractPackage(uploadedPackage)
             print('package '+uploadedPackage.packageName+' saved')
             return redirect('home')
     context={'packageForm':uploadForm}
