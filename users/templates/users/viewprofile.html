@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/StyleSheets/Packages_StyleSheet.css" /> 
+
+<body>
+    {{user}}'s profile
+    <div class="mx-auto position-relative gallery-container">
+    <div class="mx-auto tm-border-top gallery-slider">
+
+        {%for package in user_packages %}
+        <figure class="effect-julia item">
+            <img src={{package.packageThumbnail.url}}/>
+            <figcaption>
+                <div>
+                    <p>{{package.packageName}}</p>
+                </div>
+                <a href="#">View Package</a>
+            </figcaption>
+        </figure>
+        {% endfor %}
+    </div>
+</body>
+</html>

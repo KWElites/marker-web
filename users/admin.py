@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Account
+from .models import Log, Package, UserProfile
 
-# Register your models here.
-admin.site.register(Account)
+admin.site.register(UserProfile)
+admin.site.register(Package)
+admin.site.register(Log)
