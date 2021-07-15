@@ -5,12 +5,9 @@
     </head>
     <body>
         <h1>Upload Package</h1>
-        <form method="POST" enctype="multipart/form-data" action="{% url 'home' %}">
+        <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
-            Name: <input type="text" name="packageName" required/><br>
-            Description: <input type="text" name="packageDesc" required/><br>
-            Thumbnail (Optional): <input type="file" name="packageThumbnail"/><br>
-            Package: <input type="file" name="packageItems" required/><br>
+            {{ packageForm.as_p }}
             <button type="submit">Upload Package</button>
         </form>
     </body>

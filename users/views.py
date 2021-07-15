@@ -1,10 +1,10 @@
-from users.models import UserProfile
+from users.models import Packages, UserProfile
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import CreateUserForm, ProfileForm
+from .forms import CreateUserForm, ProfileForm, UploadPackageForm
 
 # Create your views here.
 def loginPage(request):
@@ -54,9 +54,6 @@ def logoutUser(request):
 #@login_required(login_url='login')
 def homePage(request):
     if request.user.is_authenticated:
-        if request.method == 'POST':
-            uploaded_package = request.FILES['packageItems']
-            
         user = request.user
         userProfile = UserProfile.objects.get(user_id = user.id)
         context={"userP": userProfile}
@@ -71,5 +68,26 @@ def profilePage(request):
 
 @login_required(login_url='login')
 def uploadPage(request):
-    context={}
+    uploadForm = UploadPackageForm()
+    print('trace -1')
+    if request.method == 'POST':
+        print('trace 0')
+        uploadForm = UploadPackageForm(request.POST,request.FILES)
+        if uploadForm.is_valid():
+            print('trace 1')
+            uploadedPackage = uploadForm.save(commit=False)
+            #package = Packages(uId=request.user.id,packageName = uploaded_package.cleaned_data.get('packageName'), packageDesc = uploaded_package.cleaned_data.get('packageDesc'), packageThumbnail=uploaded_package.cleaned_data.get('packageThumbnail'), packageItems = uploaded_package.cleaned_data.get('packageItems'))
+            uploadedPackage.packageItems = request.FILES['packageItems']
+            uploadedPackage.uId = request.user
+            print('trace 2')
+            fileType = uploadedPackage.packageItems.url.split('.')[-1]
+            fileType = fileType.lower()
+            print('trace 3')
+            if fileType != 'zip':
+                return redirect('upload')
+            print('trace 4')
+            uploadedPackage.save()
+            print('package '+uploadedPackage.packageName+' saved')
+            return redirect('home')
+    context={'packageForm':uploadForm}
     return render(request,'users/upload.html',context)
