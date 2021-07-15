@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import UserProfile
-from .models import Packages
+from .models import Log, Package, UserProfile
 
 admin.site.register(UserProfile)
-admin.site.register(Packages)
+admin.site.register(Package)
+admin.site.register(Log)

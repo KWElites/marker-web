@@ -1,10 +1,10 @@
-from users.models import Packages, UserProfile
+from users.models import Package, UserProfile
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import CreateUserForm, ProfileForm
+from .forms import CreateUserForm, ProfileForm, UploadPackageForm
 
 # Create your views here.
 def loginPage(request):
@@ -64,9 +64,29 @@ def homePage(request):
 @login_required(login_url='login')
 def profilePage(request):
     user = request.user
-    user_packages = Packages.objects.filter(uId = user.id) 
+    user_packages = Package.objects.filter(uId = user.id) 
     context={
         'user': user,
         'user_packages': user_packages
     }
     return render(request, 'users/viewprofile.html', context)
+
+@login_required(login_url='login')
+def uploadPage(request):
+    uploadForm = UploadPackageForm()
+    if request.method == 'POST':
+        uploadForm = UploadPackageForm(request.POST,request.FILES)
+        if uploadForm.is_valid():
+            uploadedPackage = uploadForm.save(commit=False)
+            uploadedPackage.packageItems = request.FILES['packageItems']
+            uploadedPackage.uId = request.user
+            #fileType stores the extension of the package, for later checking that it's a .zip file
+            fileType = uploadedPackage.packageItems.url.split('.')[-1]
+            fileType = fileType.lower()
+            if fileType != 'zip':
+                return redirect('upload')
+            uploadedPackage.save()
+            print('package '+uploadedPackage.packageName+' saved')
+            return redirect('home')
+    context={'packageForm':uploadForm}
+    return render(request,'users/upload.html',context)
