@@ -63,8 +63,13 @@ def homePage(request):
 
 @login_required(login_url='login')
 def profilePage(request):
-    context={}
-    return render(request,'users/viewprofile.html',context)
+    user = request.user
+    user_packages = Packages.objects.filter(uId = user.id) 
+    context={
+        'user': user,
+        'user_packages': user_packages
+    }
+    return render(request, 'users/viewprofile.html', context)
 
 @login_required(login_url='login')
 def uploadPage(request):
