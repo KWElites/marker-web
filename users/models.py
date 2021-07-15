@@ -12,7 +12,7 @@ class Packages(models.Model):
     packageName = models.CharField(max_length=20)
     packageDesc = models.CharField(max_length=512)
     packageThumbnail = models.ImageField(default='package/thumbnails/defaultTN.png',upload_to='package/thumbnails')
-    #packageItems = models.FileField(upload_to='package/packages',default='')
+    packageItems = models.FileField(upload_to='package/packages',default='')
 
 
 class Logs(models.Model):
