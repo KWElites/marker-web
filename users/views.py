@@ -54,6 +54,9 @@ def logoutUser(request):
 #@login_required(login_url='login')
 def homePage(request):
     if request.user.is_authenticated:
+        if request.method == 'POST':
+            uploaded_package = request.FILES['packageItems']
+            
         user = request.user
         userProfile = UserProfile.objects.get(user_id = user.id)
         context={"userP": userProfile}
@@ -65,3 +68,8 @@ def homePage(request):
 def profilePage(request):
     context={}
     return render(request,'users/viewprofile.html',context)
+
+@login_required(login_url='login')
+def uploadPage(request):
+    context={}
+    return render(request,'users/upload.html',context)
