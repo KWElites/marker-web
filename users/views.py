@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm, ProfileForm, UploadPackageForm
+import zipfile
+from os import path
 
 # Create your views here.
 def loginPage(request):
@@ -71,21 +73,35 @@ def profilePage(request):
     }
     return render(request, 'users/viewprofile.html', context)
 
+def validZip(uploadedZip):
+    validExtensions = ['jpg','png','jpeg','obj']
+    with zipfile.ZipFile(uploadedZip,'r') as z:
+        for i in z.namelist():
+            tempFileType = i.split('.')[-1]
+            tempFileType = tempFileType.lower()
+            if tempFileType not in validExtensions:
+                return False
+    return True
+
 @login_required(login_url='login')
 def uploadPage(request):
     uploadForm = UploadPackageForm()
     if request.method == 'POST':
         uploadForm = UploadPackageForm(request.POST,request.FILES)
         if uploadForm.is_valid():
+            #commit=False as I understand means that it puts the content of the form in uploadedPackage without saving it to the database
             uploadedPackage = uploadForm.save(commit=False)
             uploadedPackage.packageItems = request.FILES['packageItems']
             uploadedPackage.uId = request.user
             #fileType stores the extension of the package, for later checking that it's a .zip file
             fileType = uploadedPackage.packageItems.url.split('.')[-1]
             fileType = fileType.lower()
-            if fileType != 'zip':
+            if fileType != 'zip' or validZip(uploadedPackage.packageItems) == False:
                 return redirect('upload')
             uploadedPackage.save()
+            #print("PACKAGE PATH"+uploadedPackage.packageItems.url)
+            # while path.exists(uploadedPackage.packageItems.url) == False:
+            #     continue
             print('package '+uploadedPackage.packageName+' saved')
             return redirect('home')
     context={'packageForm':uploadForm}
