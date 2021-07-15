@@ -69,23 +69,17 @@ def profilePage(request):
 @login_required(login_url='login')
 def uploadPage(request):
     uploadForm = UploadPackageForm()
-    print('trace -1')
     if request.method == 'POST':
-        print('trace 0')
         uploadForm = UploadPackageForm(request.POST,request.FILES)
         if uploadForm.is_valid():
-            print('trace 1')
             uploadedPackage = uploadForm.save(commit=False)
-            #package = Packages(uId=request.user.id,packageName = uploaded_package.cleaned_data.get('packageName'), packageDesc = uploaded_package.cleaned_data.get('packageDesc'), packageThumbnail=uploaded_package.cleaned_data.get('packageThumbnail'), packageItems = uploaded_package.cleaned_data.get('packageItems'))
             uploadedPackage.packageItems = request.FILES['packageItems']
             uploadedPackage.uId = request.user
-            print('trace 2')
+            #fileType stores the extension of the package, for later checking that it's a .zip file
             fileType = uploadedPackage.packageItems.url.split('.')[-1]
             fileType = fileType.lower()
-            print('trace 3')
             if fileType != 'zip':
                 return redirect('upload')
-            print('trace 4')
             uploadedPackage.save()
             print('package '+uploadedPackage.packageName+' saved')
             return redirect('home')
