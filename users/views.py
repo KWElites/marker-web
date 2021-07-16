@@ -74,27 +74,29 @@ def profilePage(request):
     return render(request, 'users/viewprofile.html', context)
 
 def validZip(uploadedZip):
-    validExtensions = ['jpg','png','jpeg','obj']
-    with zipfile.ZipFile(uploadedZip,'r') as z:
+    validExtensions = ['jpg', 'png', 'jpeg', 'obj', 'md2', 'g3d', 'g3dt']
+    with zipfile.ZipFile(uploadedZip, 'r') as z:
         for i in z.namelist():
             tempFileType = i.split('.')[-1]
             tempFileType = tempFileType.lower()
-            if os.path.isfile(i) and tempFileType not in validExtensions:
+            if i[-1] == '/':
+                continue
+            if (tempFileType not in validExtensions):
                 return False
     return True
 
 def extractPackage(uploadedZip):
-    images = ['jpg','png','jpeg']
+    images = ['jpg', 'png', 'jpeg']
     newDir='media/package/packages/'+str(uploadedZip.id)
     os.mkdir(newDir)
     uploadedZip.packageImages = 'package/packages/'+str(uploadedZip.id)
     uploadedZip.save()
-    with zipfile.ZipFile(uploadedZip.packageItems,'r') as z:
+    with zipfile.ZipFile(uploadedZip.packageItems, 'r') as z:
         for i in z.namelist():
             tempFileType = i.split('.')[-1]
             tempFileType = tempFileType.lower()
             if tempFileType in images:
-                z.extract(i,newDir)
+                z.extract(i, newDir)
 
 @login_required(login_url='login')
 def uploadPage(request):
@@ -108,7 +110,7 @@ def uploadPage(request):
             uploadedStore = Store(uId = request.user, storeName = storeForm.cleaned_data.get('storeName'))
             uploadedStore.save()
             
-            uploadedPackage = uploadForm.save(commit=False)
+            uploadedPackage = uploadForm.save(commit = False)
             uploadedPackage.packageItems = request.FILES['packageItems']
             uploadedPackage.uId = request.user
             uploadedPackage.sId = uploadedStore
