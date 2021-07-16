@@ -1,3 +1,4 @@
+from marker import settings
 from users.models import Package, UserProfile, Store
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import UserCreationForm
@@ -6,6 +7,9 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm, ProfileForm, UploadPackageForm, StoreForm
 import zipfile
+import qrcode
+import qrcode.image.svg
+from io import BytesIO
 import os
 
 # Create your views here.
@@ -74,14 +78,15 @@ def profilePage(request):
     return render(request, 'users/viewprofile.html', context)
 
 def validZip(uploadedZip):
-    validExtensions = ['jpg','png','jpeg','obj']
+    validExtensions = ['jpg', 'png', 'jpeg', 'obj', 'md2', 'g3d', 'g3dt']
     with zipfile.ZipFile(uploadedZip,'r') as z:
         for i in z.namelist():
             tempFileType = i.split('.')[-1]
             tempFileType = tempFileType.lower()
-            if os.path.isfile(i) and tempFileType not in validExtensions:
-                return False
-    return True
+            if i[-1] == '/':
+                continue
+            if (tempFileType not in validExtensions):
+                 return True
 
 def extractPackage(uploadedZip):
     images = ['jpg','png','jpeg']
@@ -131,3 +136,28 @@ def uploadPage(request):
         'storeForm' : storeForm
     }
     return render(request, 'users/upload.html', context)
+
+def getItemsImages(zip_path, path):
+    validExtensions = ['jpg','png','jpeg','obj']
+    image_list = []
+    with zipfile.ZipFile(zip_path,'r') as z:
+        for file in z.namelist():
+            print(file)
+            ext = file.split('.')[-1]
+            ext = ext.lower()
+            if ext in validExtensions:
+                image_list.append(path+'/'+file)
+    return image_list
+
+@login_required(login_url='login')
+def packageViewPage(request, pk):
+    user = request.user
+    package = Package.objects.get(uId = user.id, id = pk)
+    package_items = getItemsImages(package.packageItems, package.packageImages)
+    context={
+        'user': user,
+        'package': package,
+        'package_items': package_items,
+        'media_url': settings.MEDIA_URL
+    }
+    return render(request, 'users/viewpackage.html', context)
