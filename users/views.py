@@ -1,10 +1,10 @@
-from users.models import Package, UserProfile
+from users.models import Package, UserProfile, Store
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import CreateUserForm, ProfileForm, UploadPackageForm
+from .forms import CreateUserForm, ProfileForm, UploadPackageForm, StoreForm
 import zipfile
 import os
 
@@ -99,22 +99,35 @@ def extractPackage(uploadedZip):
 @login_required(login_url='login')
 def uploadPage(request):
     uploadForm = UploadPackageForm()
+    storeForm = StoreForm()
     if request.method == 'POST':
         uploadForm = UploadPackageForm(request.POST,request.FILES)
-        if uploadForm.is_valid():
+        storeForm = StoreForm(request.POST)
+        if uploadForm.is_valid() and storeForm.is_valid():
             #commit=False as I understand means that it puts the content of the form in uploadedPackage without saving it to the database
+            uploadedStore = Store(uId = request.user, storeName = storeForm.cleaned_data.get('storeName'))
+            uploadedStore.save()
+            
             uploadedPackage = uploadForm.save(commit=False)
             uploadedPackage.packageItems = request.FILES['packageItems']
             uploadedPackage.uId = request.user
+            uploadedPackage.sId = uploadedStore
+             
+            
             #fileType stores the extension of the package, for later checking that it's a .zip file
             fileType = uploadedPackage.packageItems.url.split('.')[-1]
             fileType = fileType.lower()
             if fileType != 'zip' or validZip(uploadedPackage.packageItems) == False:
                 return redirect('upload')
             uploadedPackage.save()
+            
             #print(uploadedPackage.packageItems.url)
             extractPackage(uploadedPackage)
             print('package '+uploadedPackage.packageName+' saved')
             return redirect('home')
-    context={'packageForm':uploadForm}
-    return render(request,'users/upload.html',context)
+    
+    context={
+        'packageForm' : uploadForm,
+        'storeForm' : storeForm
+    }
+    return render(request, 'users/upload.html', context)
