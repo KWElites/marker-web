@@ -8,7 +8,7 @@
     <img width="300" src={{userP.avatar.url}}/>
     <p>{{userP.name}}'s profile</p>
 
-    {% if request.user.username == user.username %}
+    {% if request.user.is_authenticated and request.user.username == user.username %}
     <form action="{% url 'editprofile' %}">
         <button type="submit" class="button">View Details</button>
     </form>

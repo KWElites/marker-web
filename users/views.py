@@ -53,7 +53,6 @@ def logoutUser(request):
     logout(request)
     return redirect('home')
 
-#@login_required(login_url='login')
 def homePage(request):
     if request.user.is_authenticated:
         user = request.user
@@ -63,7 +62,6 @@ def homePage(request):
         context={}
     return render(request,'users/home.html',context)
 
-@login_required(login_url='login')
 def profilePage(request, username):
     user = User.objects.get(username = username)
     userProfile = UserProfile.objects.get(user_id = user.id)
