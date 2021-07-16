@@ -78,6 +78,7 @@ def profilePage(request, username):
 @login_required(login_url='login')
 def editProfile(request):
     user = request.user
+    passChangeForm = PasswordChangeForm(user = user)
     userProfile = UserProfile.objects.get(user_id = user.id)
     currentPP = userProfile.avatar
     userProfile.avatar = None
@@ -86,45 +87,36 @@ def editProfile(request):
     profileForm = ProfileForm(instance = userProfile)
 
     if request.method == 'POST':
-        #form = CreateUserForm(request.POST)
-        profileForm = ProfileForm(request.POST,request.FILES)
+        if "save_details" in request.POST:
+            profileForm = ProfileForm(request.POST,request.FILES)
 
-        if profileForm.is_valid():
-            newUserProfile = profileForm.save(commit=False)
-            userProfile.name = newUserProfile.name
-            if request.POST.get('clearPP') == "on":
-                userProfile.avatar = "profilePics/defaultPP.jpg"
-            elif os.path.basename(os.path.normpath(newUserProfile.avatar.url)) != "defaultPP.jpg":
-                userProfile.avatar = newUserProfile.avatar
-            else :
-                userProfile.avatar = currentPP
-            
-            print("----",os.path.basename(os.path.normpath(newUserProfile.avatar.url)))
-            print("----",userProfile.avatar)
-            print("----", request.POST.get('clearPP'))
-            userProfile.save() 
-            return redirect("profile", user.username)
+            if profileForm.is_valid():
+                newUserProfile = profileForm.save(commit=False)
+                userProfile.name = newUserProfile.name
+                if request.POST.get('clearPP') == "on":
+                    userProfile.avatar = "profilePics/defaultPP.jpg"
+                elif os.path.basename(os.path.normpath(newUserProfile.avatar.url)) != "defaultPP.jpg":
+                    userProfile.avatar = newUserProfile.avatar
+                else :
+                    userProfile.avatar = currentPP
+                
+                userProfile.save() 
+                return redirect("profile", user.username)
+        
+        if "change_pass" in request.POST:
+            passChangeForm = PasswordChangeForm(user = request.user, data = request.POST)
+            if passChangeForm.is_valid():
+                user = passChangeForm.save()
+                update_session_auth_hash(request, user)
+                return redirect("profile", user.username)
 
     context = {
         'user':user,
         'form':form, 
-        'pform': profileForm
-    }
-    return render(request, 'users/editprofile.html', context)
-
-@login_required(login_url='login')
-def changePassword(request):
-    passChangeForm = PasswordChangeForm(user = request.user)
-    if request.method == 'POST':
-        passChangeForm = PasswordChangeForm(user = request.user, data = request.POST)
-        if passChangeForm.is_valid():
-            user = passChangeForm.save()
-            update_session_auth_hash(request, user)
-            return redirect("profile", user.username)
-    context = {
+        'pform': profileForm,
         'passChangeForm': passChangeForm
     }
-    return render(request, 'users/changepass.html', context)
+    return render(request, 'users/editprofile.html', context)
 
 @login_required(login_url='login')
 def uploadPage(request):
