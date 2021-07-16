@@ -1,4 +1,4 @@
-from users.models import Package, UserProfile
+from users.models import Package, UserProfile, Store
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
@@ -6,7 +6,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import CreateUserForm, ProfileForm, UploadPackageForm
+from .forms import CreateUserForm, ProfileForm, UploadPackageForm, StoreForm
+import zipfile
 import os
 
 # Create your views here.
@@ -46,6 +47,7 @@ def registerPage(request):
 
             return redirect('login')
 
+
     context = {'form':form, 'pform': profileForm}
     return render(request,'users/register.html',context)
 
@@ -72,6 +74,31 @@ def profilePage(request, username):
         'user_packages': user_packages
     }
     return render(request, 'users/viewprofile.html', context)
+
+def validZip(uploadedZip):
+    validExtensions = ['jpg', 'png', 'jpeg', 'obj', 'md2', 'g3d', 'g3dt']
+    with zipfile.ZipFile(uploadedZip, 'r') as z:
+        for i in z.namelist():
+            tempFileType = i.split('.')[-1]
+            tempFileType = tempFileType.lower()
+            if i[-1] == '/':
+                continue
+            if (tempFileType not in validExtensions):
+                return False
+    return True
+
+def extractPackage(uploadedZip):
+    images = ['jpg', 'png', 'jpeg']
+    newDir='media/package/packages/'+str(uploadedZip.id)
+    os.mkdir(newDir)
+    uploadedZip.packageImages = 'package/packages/'+str(uploadedZip.id)
+    uploadedZip.save()
+    with zipfile.ZipFile(uploadedZip.packageItems, 'r') as z:
+        for i in z.namelist():
+            tempFileType = i.split('.')[-1]
+            tempFileType = tempFileType.lower()
+            if tempFileType in images:
+                z.extract(i, newDir)
 
 @login_required(login_url='login')
 def editProfile(request):
@@ -119,19 +146,35 @@ def editProfile(request):
 @login_required(login_url='login')
 def uploadPage(request):
     uploadForm = UploadPackageForm()
+    storeForm = StoreForm()
     if request.method == 'POST':
         uploadForm = UploadPackageForm(request.POST,request.FILES)
-        if uploadForm.is_valid():
-            uploadedPackage = uploadForm.save(commit=False)
+        storeForm = StoreForm(request.POST)
+        if uploadForm.is_valid() and storeForm.is_valid():
+            #commit=False as I understand means that it puts the content of the form in uploadedPackage without saving it to the database
+            uploadedStore = Store(uId = request.user, storeName = storeForm.cleaned_data.get('storeName'))
+            uploadedStore.save()
+            
+            uploadedPackage = uploadForm.save(commit = False)
             uploadedPackage.packageItems = request.FILES['packageItems']
             uploadedPackage.uId = request.user
+            uploadedPackage.sId = uploadedStore
+             
+            
             #fileType stores the extension of the package, for later checking that it's a .zip file
             fileType = uploadedPackage.packageItems.url.split('.')[-1]
             fileType = fileType.lower()
-            if fileType != 'zip':
+            if fileType != 'zip' or validZip(uploadedPackage.packageItems) == False:
                 return redirect('upload')
             uploadedPackage.save()
+            
+            #print(uploadedPackage.packageItems.url)
+            extractPackage(uploadedPackage)
             print('package '+uploadedPackage.packageName+' saved')
             return redirect('home')
-    context={'packageForm':uploadForm}
-    return render(request,'users/upload.html',context)
+    
+    context={
+        'packageForm' : uploadForm,
+        'storeForm' : storeForm
+    }
+    return render(request, 'users/upload.html', context)

@@ -1,7 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.forms.fields import ImageField
-from .models import Package, UserProfile
+from .models import Package, UserProfile, Store
 from django import forms
 
 class CreateUserForm(UserCreationForm):
@@ -19,3 +18,8 @@ class UploadPackageForm(forms.ModelForm):
     class Meta:
         model = Package
         fields = ['packageName','packageDesc','packageThumbnail','packageItems']
+
+class StoreForm(forms.ModelForm):
+    class Meta:
+        model = Store
+        fields = ['storeName']
