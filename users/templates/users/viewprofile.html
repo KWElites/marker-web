@@ -5,7 +5,16 @@
     <link rel="stylesheet" href="/static/StyleSheets/Packages_StyleSheet.css" /> 
 
 <body>
-    {{user}}'s profile
+    <img width="300" src={{userP.avatar.url}}/>
+    <p>{{userP.name}}'s profile</p>
+
+    {% if request.user.is_authenticated and request.user.username == user.username %}
+    <form action="{% url 'editprofile' %}">
+        <button type="submit" class="button">View Details</button>
+    </form>
+    {%endif%}
+
+    <h2>Packages</h2>
     <div class="mx-auto position-relative gallery-container">
     <div class="mx-auto tm-border-top gallery-slider">
 
