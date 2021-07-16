@@ -11,8 +11,10 @@ urlpatterns = [
     path('login/',views.loginPage,name="login"),
     path('logout/',views.logoutUser,name="logout"),
     path('register/',views.registerPage,name="register"),
-    path('profile/',views.profilePage,name="profile"),
+    path('profile/<username>',views.profilePage,name="profile"),
     path('upload/',views.uploadPage,name="upload"),
+    path('editprofile/',views.editProfile,name="editprofile"),
+    path('changepass/',views.changePassword,name="changepass")
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1>Profile Details</h1>
+        <p>
+            <label>Username: </label>
+            {{user.username}}
+        </p>
+        <p>
+            <label>Email: </label>
+            {{user.email}}
+        </p>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <p>
+                <label>Name: </label>
+                {{pform.name}}
+            </p>
+            <p>
+                <label>Profile Picture: </label>
+                {{pform.avatar}}
+                <input type="checkbox" id="clearPP" name="clearPP">
+                <label for="clearPP">Reset</label>
+            </p>
+            <button type="submit">Save</button>
+            {{pform.errors}}
+            {{ pform.non_field_errors }}
+        </form>
+        <form action="{% url 'changepass' %}">
+            <button type="submit" class="button">Change Password</button>
+        </form>
+    </body>
+</html>
