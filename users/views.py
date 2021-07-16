@@ -90,6 +90,7 @@ def validZip(uploadedZip):
 
 def extractPackage(uploadedZip):
     images = ['jpg','png','jpeg']
+
     newDir='media/package/packages/'+str(uploadedZip.id)
     os.mkdir(newDir)
     uploadedZip.packageImages = 'package/packages/'+str(uploadedZip.id)
@@ -122,10 +123,15 @@ def uploadPage(request):
             #fileType stores the extension of the package, for later checking that it's a .zip file
             fileType = uploadedPackage.packageItems.url.split('.')[-1]
             fileType = fileType.lower()
+            
             if fileType != 'zip' or validZip(uploadedPackage.packageItems) == False:
                 return redirect('upload')
-            uploadedPackage.save()
             
+            uploadedPackage.save()
+
+            uploadedPackage.packageQRCode = generateQRCode(request.get_host(), uploadedPackage.packageItems.url)
+            uploadedPackage.save()
+
             #print(uploadedPackage.packageItems.url)
             extractPackage(uploadedPackage)
             print('package '+uploadedPackage.packageName+' saved')
@@ -154,10 +160,19 @@ def packageViewPage(request, pk):
     user = request.user
     package = Package.objects.get(uId = user.id, id = pk)
     package_items = getItemsImages(package.packageItems, package.packageImages)
+    store = Store.objects.get(uId = user.id, id = package.sId.id)
     context={
         'user': user,
         'package': package,
         'package_items': package_items,
-        'media_url': settings.MEDIA_URL
+        'media_url': settings.MEDIA_URL,
+        'store': store
     }
     return render(request, 'users/viewpackage.html', context)
+
+def generateQRCode(host, file_name):
+    factory = qrcode.image.svg.SvgImage
+    img = qrcode.make('http://'+host + file_name, image_factory=factory, box_size=15)
+    stream = BytesIO()
+    img.save(stream)
+    return stream.getvalue().decode()
