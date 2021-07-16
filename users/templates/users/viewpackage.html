@@ -1,0 +1,12 @@
+View Package
+{%load static%}
+
+<h1>{{package.packageName}}</h1>
+<h1>{{package.packageDesc}}</h1>
+
+{{package.packageQRCode|safe}}
+{{store.storeName}}
+
+{%for item in package_items %}
+    <img src={{media_url}}{{item}}/>    
+{% endfor %}
