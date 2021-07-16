@@ -79,7 +79,7 @@ def validZip(uploadedZip):
         for i in z.namelist():
             tempFileType = i.split('.')[-1]
             tempFileType = tempFileType.lower()
-            if tempFileType not in validExtensions:
+            if os.path.isfile(i) and tempFileType not in validExtensions:
                 return False
     return True
 
