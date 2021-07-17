@@ -1,4 +1,6 @@
+from users.handlers.validator import validZip
 from marker import settings
+from users.handlers.package_handler import extractPackage, generatePackageQRCode, getPackageItems
 from users.models import Package, UserProfile, Store
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
@@ -8,11 +10,8 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .forms import CreateUserForm, ProfileForm, UploadPackageForm, StoreForm
-import zipfile
-import qrcode
-import qrcode.image.svg
-from io import BytesIO
 import os
+
 
 # Create your views here.
 def loginPage(request):
@@ -78,31 +77,6 @@ def profilePage(request, username):
         'user_packages': user_packages
     }
     return render(request, 'users/viewprofile.html', context)
-
-def validZip(uploadedZip):
-    validExtensions = ['jpg', 'png', 'jpeg', 'obj', 'md2', 'g3d', 'g3dt']
-    with zipfile.ZipFile(uploadedZip, 'r') as z:
-        for i in z.namelist():
-            tempFileType = i.split('.')[-1]
-            tempFileType = tempFileType.lower()
-            if i[-1] == '/':
-                continue
-            if (tempFileType not in validExtensions):
-                return False
-    return True
-
-def extractPackage(uploadedZip):
-    images = ['jpg', 'png', 'jpeg']
-    newDir='media/package/packages/'+str(uploadedZip.id)
-    os.mkdir(newDir)
-    uploadedZip.packageImages = 'package/packages/'+str(uploadedZip.id)
-    uploadedZip.save()
-    with zipfile.ZipFile(uploadedZip.packageItems, 'r') as z:
-        for i in z.namelist():
-            tempFileType = i.split('.')[-1]
-            tempFileType = tempFileType.lower()
-            if tempFileType in images:
-                z.extract(i, newDir)
 
 @login_required(login_url='login')
 def editProfile(request):
@@ -174,9 +148,6 @@ def uploadPage(request):
             
             uploadedPackage.save()
 
-            uploadedPackage.packageQRCode = generateQRCode(request.get_host(), uploadedPackage.packageItems.url)
-            uploadedPackage.save()
-
             #print(uploadedPackage.packageItems.url)
             extractPackage(uploadedPackage)
             print('package '+uploadedPackage.packageName+' saved')
@@ -188,36 +159,20 @@ def uploadPage(request):
     }
     return render(request, 'users/upload.html', context)
 
-def getItemsImages(zip_path, path):
-    validExtensions = ['jpg','png','jpeg','obj']
-    image_list = []
-    with zipfile.ZipFile(zip_path,'r') as z:
-        for file in z.namelist():
-            print(file)
-            ext = file.split('.')[-1]
-            ext = ext.lower()
-            if ext in validExtensions:
-                image_list.append(path+'/'+file)
-    return image_list
-
 @login_required(login_url='login')
 def packageViewPage(request, pk):
     user = request.user
     package = Package.objects.get(uId = user.id, id = pk)
-    package_items = getItemsImages(package.packageItems, package.packageImages)
+    package_items = getPackageItems(package.packageItems, package.packageImages)
     store = Store.objects.get(uId = user.id, id = package.sId.id)
+    qr_code = generatePackageQRCode(request.get_host(), package.packageItems.url)
+    
     context={
         'user': user,
         'package': package,
         'package_items': package_items,
         'media_url': settings.MEDIA_URL,
-        'store': store
+        'store': store,
+        'qr_code': qr_code
     }
     return render(request, 'users/viewpackage.html', context)
-
-def generateQRCode(host, file_name):
-    factory = qrcode.image.svg.SvgImage
-    img = qrcode.make('http://'+host + file_name, image_factory=factory, box_size=15)
-    stream = BytesIO()
-    img.save(stream)
-    return stream.getvalue().decode()
