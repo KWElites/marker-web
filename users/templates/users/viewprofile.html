@@ -40,14 +40,10 @@
                     <figure id="packages-img-container" class="effect-julia item my-img-container">
                         <img src={{package.packageThumbnail.url}}>
                             <figcaption>
-                                <center>
                                 <div>
                                     <p>{{package.packageName}}</p>
                                 </div>
-                            </center>
-
                                 <a href="{% url 'package' package.id %}">View Package</a>
-                            
                             </figcaption>
                     </figure>
                     {% endfor %}     
