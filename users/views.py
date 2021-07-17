@@ -59,12 +59,23 @@ def logoutUser(request):
     return redirect('home')
 
 def homePage(request):
+    context = {}
+    packages = Package.objects.order_by('-id')[:2]
+    context["packages"] = packages
+
+    if request.method == 'POST' and request.POST.get('searchBarText') != "":
+        searchText = request.POST.get('searchBarText')
+        userProfiles = UserProfile.objects.filter(name__contains=searchText)
+        
+        packages = Package.objects.filter(packageName__contains=searchText)
+        for profile in userProfiles:
+            packages|=(Package.objects.filter(uId_id=profile.user_id))
+        context["packages"] = packages
     if request.user.is_authenticated:
         user = request.user
         userProfile = UserProfile.objects.get(user_id = user.id)
-        context={"userP": userProfile}
-    else:
-        context={}
+        context["userP"] = userProfile
+
     return render(request,'users/home.html',context)
 
 def profilePage(request, username):
