@@ -1,12 +1,54 @@
-View Package
-{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+    {%load static%}
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'StyleSheets/General.css' %}"/> 
+        <link rel="stylesheet" href="{% static 'StyleSheets/Packages_StyleSheet.css' %}"/> 
+        <link rel="stylesheet" href="{% static 'StyleSheets/Profile_Info.css' %}"/> 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
 
-<h1>{{package.packageName}}</h1>
-<h1>{{package.packageDesc}}</h1>
+    <body>
+        <div class="page-container">
+            <div class="container-fluid">
+                <div class="cd-hero-slider mb-0 py-5">
+                <div class="px-5">
+                    <div class="page-width-1 page-center">
+                    <div class="d-flex position-relative profile-container">                
+                        
+                        <div class="profile-right">
+                            <div class="img-fluid profile-qrcode"> {{package.packageQRCode|safe}}</div>
+                        </div>
+                        
+                        <div class="profile-left profile-bg-dark">
+                          <h2 class="mb-6">{{package.packageName}}</h2>
+                          <h6 class="mb-6">{{store.storeName}}</h6>
+                          <p class="mb-6">{{package.packageDesc}}</p>
+                        </div>
 
-{{package.packageQRCode|safe}}
-{{store.storeName}}
-
-{%for item in package_items %}
-    <img src={{media_url}}{{item}}/>    
-{% endfor %}
+                    </div>          
+                    </div>            
+                </div>
+                </div>
+            </br>
+            </div>
+            
+            <div class="mx-auto position-relative gallery-container">
+            <div class="mx-auto gallery-slider">       
+                
+                {%for item in package_items %}
+                <figure class="effect-julia item">
+                    <img src={{media_url}}{{item}}>
+                </figure>
+                {% endfor %}     
+            
+            </div>
+            </div>                
+        
+        </div>
+        </div>
+        </div>
+    </body>
+</html>
