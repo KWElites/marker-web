@@ -17,10 +17,13 @@
 }
 
 .profile-qrcode {
+    width: 25%;
+    display: inline-block;
     margin-bottom: 20px;
 }
 
 .profile-bg-dark {
+    width: 10000px;
     background-color: white;
     transition : transform 0.8s;
     transform-style: preserve-3d;
@@ -57,7 +60,7 @@
 
 }
 
-@media (max-width: 2000px) {
+@media (max-width: 600px) {
     .profile-left {
         width: 75%;
     }

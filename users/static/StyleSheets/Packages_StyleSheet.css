@@ -80,24 +80,38 @@ figure.effect-julia:hover p {
     max-width: 1300px;
 }
 
+#package-img-container{
+    border-radius: 25px;
+    width: 350px;
+    height: 350px;
+}
+
+#package-img-container #packages-img-container .img-container {
+    text-align: center;
+    vertical-align: middle;
+}
+
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
 .gallery-slider figure {
     position: relative;
     float: left;
     overflow: hidden;
     margin: 0;
-    max-width: 240px;
-    margin-left: 60px;
-    margin-right: 60px;
+    margin-left: 20px;
+    margin-right: 20px;
     margin-bottom: 120px;
     height: auto;
     background: #3085a3;
-    text-align: center;
     cursor: pointer;
 }
 
 .gallery-slider figure img {
     position: relative;
-    display: block;
     min-height: 100%;
     max-width: 100%;
 }

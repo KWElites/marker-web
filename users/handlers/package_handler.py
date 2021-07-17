@@ -33,7 +33,7 @@ def getPackageItems(zip_path, path):
 
 def generatePackageQRCode(host, file_name):
     factory = qrcode.image.svg.SvgImage
-    img = qrcode.make('http://'+host + file_name, image_factory=factory, box_size=15)
+    img = qrcode.make('http://'+host + file_name, image_factory=factory, box_size=17)
     stream = BytesIO()
     img.save(stream)
     return stream.getvalue().decode()

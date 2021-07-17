@@ -39,7 +39,7 @@
             <div class="mx-auto gallery-slider">       
                 
                 {%for item in package_items %}
-                <figure class="effect-julia item">
+                <figure id="package-img-container"class="effect-julia item my-img-container">
                     <img src={{media_url}}{{item}}>
                 </figure>
                 {% endfor %}     
