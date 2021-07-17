@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="{% static 'StyleSheets/Packages_StyleSheet.css' %}"/> 
         <link rel="stylesheet" href="{% static 'StyleSheets/Profile_Info.css' %}"/> 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
 
@@ -18,10 +19,42 @@
                     <div class="page-width-1 page-center">
                     <div class="d-flex position-relative profile-container">                
                         
-                        <div class="profile-right">
+                        <div class="profile-right container">
+                             <!-- QR Code -->
                             <div class="img-fluid profile-qrcode"> {{qr_code|safe}}</div>
+                            
+                            <!-- Delete Button -->
+                            <div class="del-button" text-align="center">
+                                <button type="button" class="btn btn-block btn-dark" data-toggle="modal" data-target="#deleteModal"> Delete Package </button>
+                            </div>
+                            
+                            <!-- Delete Modal -->
+                            <div class="modal fade" id="deleteModal" role="dialog">
+                                <div class="modal-dialog">
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Delete Package</h4>
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p>Please type the package name to confirm</p>
+                                            <input type="text" class="form-control" id="del-package-name">
+                                        </div>
+                                        
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-dark">Delete</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                         
+                        <!-- Package Info Card -->
                         <div class="profile-left profile-bg-dark">
                           <h2 class="mb-6">{{package.packageName}}</h2>
                           <h6 class="mb-6">{{store.storeName}}</h6>
@@ -35,6 +68,7 @@
             </br>
             </div>
             
+            <!-- Package Items Images -->
             <div class="mx-auto position-relative gallery-container">
             <div class="mx-auto gallery-slider">       
                 
@@ -49,6 +83,8 @@
         
         </div>
         </div>
-        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     </body>
 </html>

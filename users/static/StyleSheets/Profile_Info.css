@@ -16,10 +16,18 @@
     max-width: 10000px;    
 }
 
+.profile-right{
+    background-color: transparent;
+}
+
+.del-button{
+    padding: 0px 70px;
+}
+
 .profile-qrcode {
     width: 25%;
     display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .profile-bg-dark {
