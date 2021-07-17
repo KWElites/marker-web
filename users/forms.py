@@ -9,9 +9,10 @@ class CreateUserForm(UserCreationForm):
         fields = ['username','email','password1','password2']
 
 class ProfileForm(forms.ModelForm):
-    class Meta:
+   avatar = forms.ImageField(required = False)
+   class Meta:
         model = UserProfile
-        fields = ['name']
+        fields = ['name','avatar']
 
 class UploadPackageForm(forms.ModelForm):
     class Meta:

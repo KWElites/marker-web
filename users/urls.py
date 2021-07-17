@@ -7,13 +7,15 @@ from django.views.static import serve
 from . import views
 
 urlpatterns = [
-    path('', views.homePage, name="home"),
-    path('login/', views.loginPage, name="login"),
-    path('logout/', views.logoutUser, name="logout"),
-    path('register/', views.registerPage, name="register"),
-    path('profile/', views.profilePage, name="profile"),
+    path('',views.homePage,name="home"),
+    path('login/',views.loginPage,name="login"),
+    path('logout/',views.logoutUser,name="logout"),
+    path('register/',views.registerPage,name="register"),
+    path('profile/<username>',views.profilePage,name="profile"),
+    path('upload/',views.uploadPage,name="upload"),
+    path('editprofile/',views.editProfile,name="editprofile"),
     path('profile/package/<int:pk>', views.packageViewPage, name="package"),
-    path('upload/', views.uploadPage, name="upload"),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
