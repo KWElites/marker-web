@@ -14,6 +14,7 @@ urlpatterns = [
     path('profile/<username>',views.profilePage,name="profile"),
     path('upload/',views.uploadPage,name="upload"),
     path('editprofile/',views.editProfile,name="editprofile"),
+    path('profile/package/<int:pk>', views.packageViewPage, name="package"),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

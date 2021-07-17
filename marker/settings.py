@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-f$tn5p56y&ukq9r*pfedwj21-o3jzy*fog=gca_mrroopsmhxq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['fceef0c94708.ngrok.io']
 
 
 # Application definition
@@ -123,8 +124,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    '/users/static/',
+    os.path.join(BASE_DIR, 'statics'),
 ]
 
 MEDIA_URL = "/media/"
