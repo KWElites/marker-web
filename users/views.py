@@ -114,8 +114,9 @@ def editProfile(request):
                 return redirect("profile", user.username)
 
     context = {
-        'user':user,
-        'form':form, 
+        'user': user,
+        'user_avatar': currentPP,
+        'form': form, 
         'pform': profileForm,
         'passChangeForm': passChangeForm
     }
