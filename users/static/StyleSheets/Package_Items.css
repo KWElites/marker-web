@@ -86,6 +86,12 @@ figure.effect-julia:hover p {
     height: 350px;
 }
 
+#packages-img-container{
+    border-radius: 25px;
+    width: 300px;
+    height: 300px;
+}
+
 #package-img-container #packages-img-container .img-container {
     text-align: center;
     vertical-align: middle;
@@ -93,9 +99,7 @@ figure.effect-julia:hover p {
 
 img{
     max-width: 100%;
-    max-height: 100%;
 }
-
 
 .gallery-slider figure {
     position: relative;
@@ -104,9 +108,17 @@ img{
     margin: 0;
     margin-left: 20px;
     margin-right: 20px;
-    margin-bottom: 120px;
+    margin-bottom: 40px;
     height: auto;
-    background: #3085a3;
+    cursor: pointer;
+}
+
+.p-gallery figure {
+    margin: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 40px;
+    height: auto;
     cursor: pointer;
 }
 
