@@ -20,6 +20,14 @@
     background-color: transparent;
 }
 
+#del-btn:hover{
+    color: white;
+}
+
+#del-btn:focus{
+    color: white;
+}
+
 .del-button{
     padding: 0px 70px;
 }
