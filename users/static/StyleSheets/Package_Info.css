@@ -30,6 +30,11 @@
 
 .del-button{
     padding: 0px 70px;
+    margin-bottom: 10px;
+}
+
+.err-msg{
+    padding: 0px 45px;
 }
 
 .profile-qrcode {
