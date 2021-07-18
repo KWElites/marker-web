@@ -125,8 +125,9 @@ def editProfile(request):
                 return redirect("profile", user.username)
 
     context = {
-        'user':user,
-        'form':form, 
+        'user': user,
+        'user_avatar': currentPP,
+        'form': form, 
         'pform': profileForm,
         'passChangeForm': passChangeForm
     }
@@ -170,12 +171,12 @@ def uploadPage(request):
     }
     return render(request, 'users/upload.html', context)
 
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def packageViewPage(request, pk):
     user = request.user
-    package = Package.objects.get(uId = user.id, id = pk)
+    package = Package.objects.get(id = pk)
     package_items = getPackageItems(package.packageItems, package.packageImages)
-    store = Store.objects.get(uId = user.id, id = package.sId.id)
+    store = Store.objects.get(id = package.sId.id)
     qr_code = generatePackageQRCode(request.get_host(), package.packageItems.url)
     
     context={

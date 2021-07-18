@@ -4,8 +4,8 @@
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="{% static 'StyleSheets/General.css' %}"/> 
-        <link rel="stylesheet" href="{% static 'StyleSheets/Packages_StyleSheet.css' %}"/> 
-        <link rel="stylesheet" href="{% static 'StyleSheets/Profile_Info.css' %}"/> 
+        <link rel="stylesheet" href="{% static 'StyleSheets/Package_Items.css' %}"/> 
+        <link rel="stylesheet" href="{% static 'StyleSheets/Package_Info.css' %}"/> 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -22,7 +22,8 @@
                         <div class="profile-right container">
                              <!-- QR Code -->
                             <div class="img-fluid profile-qrcode"> {{qr_code|safe}}</div>
-                            
+
+                            {% if request.user.is_authenticated %}
                             <!-- Delete Button -->
                             <div class="del-button" text-align="center">
                                 <button type="button" id="del-btn" class="btn btn-block btn-dark" data-toggle="modal" data-target="#deleteModal"> Delete Package </button>
@@ -51,6 +52,7 @@
                                     </div>
                                 </div>
                             </div>
+                            {% endif %}
                             
                         </div>
                         

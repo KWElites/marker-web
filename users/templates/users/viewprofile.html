@@ -3,45 +3,53 @@
 
 {%load static%}
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'StyleSheets/General.css' %}"/> 
-    <link rel="stylesheet" href="{% static 'StyleSheets/Packages_StyleSheet.css' %}"/> 
-    <link rel="stylesheet" href="{% static 'StyleSheets/Slider.css' %}"/> 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-</head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'StyleSheets/General.css' %}"/> 
+        <link rel="stylesheet" href="{% static 'StyleSheets/Profile.css' %}"/> 
+        <link rel="stylesheet" href="{% static 'StyleSheets/Package_Items.css' %}"/> 
+        <link rel="stylesheet" href="{% static 'StyleSheets/Package_Info.css' %}"/> 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
 
 <body>
-    <img width="300" src={{userP.avatar.url}}/>
-    <p>{{userP.name}}'s profile</p>
-
-    {% if request.user.is_authenticated and request.user.username == user.username %}
-    <form action="{% url 'editprofile' %}">
-        <button type="submit" class="button">View Details</button>
-    </form>
-    {%endif%}
-
     <div class="page-container">
-    <div class="container-fluid tm-content-container">
-        <div class="cd-hero-slider mb-0 py-5">
-        <div class="px-7" data-page-no="1">
+        <div class="container-fluid">
+            <div class="cd-hero-slider mb-0 py-5">
+            <div class="px-5">
             
-        <div data-page-no="1">
+            
+            <!-- Profile Info -->
+            <center>
+                <img class="vendor-img" src= {{userP.avatar.url}}></a>
+                <h1 class="media-heading vendor-name"> {{userP.name}}</h1>
+                {% if request.user.is_authenticated and request.user.username == user.username %}
+                <form action="{% url 'editprofile' %}">
+                    <button type="submit" class="button btn btn-link">Edit Profile</button>
+                </form>
+                {%endif%}
+            </center>
+            <hr class="break-line"><br>
+
+            <!-- List of packages -->
             <div class="mx-auto position-relative gallery-container">
-            <div class="mx-auto tm-border-top gallery-slider">       
-                {% for package in user_packages %}
-                <figure class="effect-julia item">
-                    <img width='250px' height='320px' src={{package.packageThumbnail.url}}/>
-                    <figcaption>
-                        <div>
-                            <p>{{package.packageName}}</p>
-                        </div>
-                        <a href="{% url 'package' package.id %}">View Package</a>
-                    </figcaption>
-                </figure>
-                {% endfor %}     
-            </div>
-            </div>
+                <div class="mx-auto p-gallery gallery-slider">       
+                    
+                    {% for package in user_packages %}
+                    <figure id="packages-img-container" class="effect-julia item my-img-container">
+                        <img src={{package.packageThumbnail.url}}>
+                            <figcaption>
+                                <div>
+                                    <p>{{package.packageName}}</p>
+                                </div>
+                                <a href="{% url 'package' package.id %}"> </a>
+                            </figcaption>
+                    </figure>
+                    {% endfor %}     
+                
+                </div>
+            </div> 
         </div>
         </div>
         </div>
@@ -49,9 +57,7 @@
     </div>
 
 
-<script type="text/javascript" src="{% static 'Scripts/jquery-3.5.1.min.js' %}"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
-<script type="text/javascript" src="{% static 'Scripts/Package_Slider.js' %}"></script>
-</body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </body>
 </html>

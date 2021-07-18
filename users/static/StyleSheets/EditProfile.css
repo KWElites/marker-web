@@ -1,0 +1,89 @@
+body {
+    margin: 0;
+    padding-top: 40px;
+    color: #2e323c;
+    background: #f5f6fa;
+    position: relative;
+    height: 100%;
+}
+
+.vendor-profile .profile-info {
+    margin: 0 0 1rem 0;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+
+.vendor-profile .profile-info .user-avatar {
+    margin: 0 0 1rem 0;
+}
+
+.vendor-profile .profile-info .user-avatar img {
+    width: 110px;
+    height: 110px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+}
+
+.vendor-profile .profile-info h4.vendor-username {
+    margin: 0 0 1.2rem 0;
+}
+
+.vendor-profile .profile-info h6.vendor-email {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #9fa8b9;
+}
+
+.vendor-profile .about {
+    margin: 2rem 0 0 0;
+    text-align: center;
+}
+
+.vendor-profile .about h5 {
+    margin: 0 0 15px 0;
+    color: #007ae1;
+}
+
+.vendor-profile .about p {
+    font-size: 0.825rem;
+}
+
+#save-btn:hover{
+    color: white;
+}
+
+#save-btn:focus{
+    color: white;
+}
+
+#update-btn:hover{
+    color: white;
+}
+
+#update-btn:focus{
+    color: white;
+}
+
+.form-control {
+    border: 1px solid #cfd1d8;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    font-size: .825rem;
+    background: #ffffff;
+    color: #2e323c;
+}
+
+.card {
+    background-color: white;
+    transition : transform 0.8s;
+    transform-style: preserve-3d;
+    box-shadow: 1px 2px 10px rgba(0, 0, 0, .20);    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 50px;
+    border: 10;
+    margin-bottom: 1rem;
+    margin-left: 0.5rem;
+}
