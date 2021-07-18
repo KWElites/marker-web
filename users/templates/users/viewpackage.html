@@ -28,30 +28,34 @@
                             <div class="del-button" text-align="center">
                                 <button type="button" id="del-btn" class="btn btn-block btn-dark" data-toggle="modal" data-target="#deleteModal"> Delete Package </button>
                             </div>
-                            
+                            <strong class="text-danger err-msg">{{errMsg}}</strong>
+ 
                             <!-- Delete Modal -->
-                            <div class="modal fade" id="deleteModal" role="dialog">
-                                <div class="modal-dialog">
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Delete Package</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
+                            <form method="POST">
+                                {% csrf_token %}
+                                <div class="modal fade" id="deleteModal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <!-- Modal content-->
+                                        <div class="modal-content">
+                                            
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Delete Package</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
 
-                                        <div class="modal-body">
-                                            <p>Please type the package name to confirm</p>
-                                            <input type="text" class="form-control" id="del-package-name">
-                                        </div>
-                                        
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-dark">Delete</button>
-                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>  
+                                            <div class="modal-body">
+                                                <p>Please type the package name to confirm</p>
+                                                <input type="text" class="form-control" name="deletePackageText" id="del-package-name" required>
+                                            </div>
+                                            
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-dark">Delete</button>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>  
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </form>
                             {% endif %}
                             
                         </div>

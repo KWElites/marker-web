@@ -173,6 +173,14 @@ def uploadPage(request):
 
 #@login_required(login_url='login')
 def packageViewPage(request, pk):
+    errMsg = ""
+    if request.method == 'POST':
+        packageToDelete = Package.objects.get(id=pk)
+        if request.POST.get("deletePackageText") == packageToDelete.packageName:
+            Package.objects.filter(id=pk).delete()
+            return redirect('profile',request.user.username)
+        else:
+            errMsg = "Package name did not match!"
     user = request.user
     package = Package.objects.get(id = pk)
     package_items = getPackageItems(package.packageItems, package.packageImages)
@@ -185,6 +193,7 @@ def packageViewPage(request, pk):
         'package_items': package_items,
         'media_url': settings.MEDIA_URL,
         'store': store,
-        'qr_code': qr_code
+        'qr_code': qr_code,
+        'errMsg': errMsg
     }
     return render(request, 'users/viewpackage.html', context)
