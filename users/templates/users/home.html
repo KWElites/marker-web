@@ -1,56 +1,93 @@
 <!DOCTYPE html>
 <html>
+   {%load static%}
+
    <head>
-      <style>
-         .button {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            }
-      </style>
       <meta charset="UTF-8">
-      <link rel="stylesheet" href="/static/StyleSheets/Packages_StyleSheet.css" /> 
+      <link rel="stylesheet" href="{% static 'StyleSheets/Package_Items.css' %}"/> 
+      <link rel="stylesheet" href="{% static 'StyleSheets/Package_Info.css' %}"/> 
+      <link rel="stylesheet" href="{% static 'StyleSheets/Home.css' %}"/> 
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    </head>
-{%load static%}
+
+
+
+   {%load static%}
    <body>
-      <h1>Home</h1>
-      <form method="POST" enctype="multipart/form-data">
-         {% csrf_token %}
-         <input type="text" name="searchBarText"/>
-         <button type="submit" class="button">Search</button>
-      </form>
+
+      <div class="container">
+
+         <br><br>
+         <div class="row gutters">           
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
+               <div></div>
+            </div>
+            
+            
+            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-12 col-12">
+               <form method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  
+                  <div class="row gutters"> 
+                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div id="custom-search-input">
+                           <div class="input-group col-md-12">
+                              <input type="text" name="searchBarText" class="form-control input-lg" placeholder="Enter package or vendor name" />
+                              
+                              <span class="input-group-btn">
+                                 <button class="btn btn-info btn-lg" type="submit">
+                                       <i class="glyphicon glyphicon-search"></i>
+                                 </button>
+                              </span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  
+               </form> <br>
+            </div>
+         </div>
+         <div class="row gutters">           
+            <div class="col-xl-12 col-lg-8 col-md-8 col-sm-12 col-12">
+               <div class="card h-100">
+                  <div id="recent-pack-card" class="card-body">
+                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                           <h2 class="mb-4"> {{title}} <br></h2>
+                           <h6 class="mb-4"> {{ packages |length }} results found</h6>
+                     </div> 
+
+                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="mx-auto position-relative gallery-container">
+                           <div class="mx-auto p-gallery gallery-slider">
+                              {%for package in packages %}
+                                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                                    <figure id="packages-img-container" class="home-packages effect-julia item my-img-container">
+                                          <img src={{package.packageThumbnail.url}}/>
+                                          <figcaption>
+                                             <div>
+                                                <p>{{package.packageName}}</p>
+                                             </div>
+                                             <a href="{% url 'package' package.id %}"> </a>
+                                          </figcaption>
+                                    </figure>
+                                 </div>
+                              {% endfor %}
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
       
-      <span>{% if request.user.is_authenticated %}
-         <a class="nav-link text-black font-weight-bold" href="{% url 'profile' user.username%}">{{userP.name}}</a>| 
-         <a class="nav-link text-black font-weight-bold" href="{% url 'logout' %}">Logout</a>
-         <form action="{% url 'upload' %}">
-            <button type="submit" class="button">Upload Package</button>
-         </form>
-      {% else %}
+      <span>{% if not request.user.is_authenticated %}
          <a class="nav-link text-black font-weight-bold" href="{% url 'login' %}">Login</a> | 
          <a class="nav-link text-black font-weight-bold" href="{% url 'register' %}">Register</a>
-      {% endif %}</span>
+         {% endif %}
+      </span>
       
-      <div class="mx-auto position-relative gallery-container">
-      <div class="mx-auto tm-border-top gallery-slider">
-        {%for package in packages %}
-        <figure class="effect-julia item">
-            <img src={{package.packageThumbnail.url}}/>
-            <figcaption>
-                <div>
-                    <p>{{package.packageName}}</p>
-                </div>
-                <a href="{% url 'package' package.id %}"> </a>
-            </figcaption>
-        </figure>
-        {% endfor %}
-    </div>
    </body>
 </html>
