@@ -19,7 +19,7 @@ def extractPackage(uploadedZip):
 
 
 def getPackageItems(zip_path, path):
-    validExtensions = ['jpg','png','jpeg','obj']
+    validExtensions = ['jpg','png','jpeg']
     image_list = []
     with zipfile.ZipFile(zip_path,'r') as z:
         for file in z.namelist():
