@@ -1,15 +1,66 @@
 <!DOCTYPE html>
 <html>
+    {%load static%}
     <head>
-
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{% static 'StyleSheets/EditProfile.css' %}"/> 
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css" integrity="sha512-17EgCFERpgZKcm0j0fEq1YCJuyAWdz9KUtv1EjVuaOz8pDnh/0nZxmU6BBXwaaxqoi9PQXnRWqlcDB027hgv9A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
-    <body>
-        <h1>Upload Package</h1>
-        <form method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ packageForm.as_p }}
-            {{ storeForm.as_p }}
-            <button type="submit">Upload Package</button>
-        </form>
-    </body>
+
+<html>
+
+    <div class="container">
+
+        <div class="row gutters">
+            
+            <!-- User Info -->
+            <div class="col-xl-2 col-lg-3 col-md-12 col-sm-12 col-12">
+                <div></div>
+            </div>
+
+            <div class="col-xl-8 col-lg-6 col-md-12 col-sm-12 col-12">
+                <div class="card h-55">
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- Profile Details -->
+                            <div class="row gutters">        
+                                <!-- Form Title -->
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <h2 class="mb-4"> Upload Package <br></h2>
+                                </div> 
+
+                                {%for field in packageForm%}
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        {{field.label_tag}} <br>
+                                        {{field}} <br><br>
+                                    </div>
+                                {%endfor%}
+                                
+                                {%for field in storeForm%}
+                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                        {{field.label_tag}} <br>
+                                        {{field}} <br><br>
+                                    </div>
+                                {%endfor%} <br>
+
+                            </div>
+                                
+
+                            <!-- Upload Package -->
+                            <div class="row gutters">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <button type="submit" class="btn btn-dark float-right">Upload Package</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </html>
