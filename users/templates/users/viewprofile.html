@@ -22,7 +22,7 @@
             
             <!-- Profile Info -->
             <center>
-                <img class="vendor-img img-circle" src= {{userP.avatar.url}}></a>
+                <img class="vendor-img" src= {{userP.avatar.url}}></a>
                 <h1 class="media-heading vendor-name"> {{userP.name}}</h1>
                 {% if request.user.is_authenticated and request.user.username == user.username %}
                 <form action="{% url 'editprofile' %}">
