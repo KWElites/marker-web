@@ -179,3 +179,12 @@ img{
     letter-spacing: 1px;
     font-size: 68.5%;
 }
+
+#up-button{
+    display:block;
+    height: 40px;
+    width: 40px;
+    border: 1px solid black;
+    border-radius: 50%;
+
+}
