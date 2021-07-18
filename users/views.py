@@ -60,8 +60,9 @@ def logoutUser(request):
 
 def homePage(request):
     context = {}
-    packages = Package.objects.order_by('-id')[:2]
+    packages = Package.objects.order_by('-id')[:3]
     context["packages"] = packages
+    context["title"] = "Recently Uploaded Packages"
 
     if request.method == 'POST' and request.POST.get('searchBarText') != "":
         searchText = request.POST.get('searchBarText')
@@ -71,6 +72,7 @@ def homePage(request):
         for profile in userProfiles:
             packages|=(Package.objects.filter(uId_id=profile.user_id))
         context["packages"] = packages
+        context["title"] = "Search Result"
     if request.user.is_authenticated:
         user = request.user
         userProfile = UserProfile.objects.get(user_id = user.id)
