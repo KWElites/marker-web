@@ -1,6 +1,6 @@
-body {
+body.container {
     margin: 0;
-    padding-top: 40px;
+    padding-top: 120px;
     color: #2e323c;
     background: #f5f6fa;
     position: relative;
@@ -76,6 +76,11 @@ body {
     color: #2e323c;
 }
 
+.user-card {
+    margin-bottom: 10px;
+    height: 96%;
+    width: 100%;
+}
 .card {
     background-color: white;
     transition : transform 0.8s;
@@ -83,7 +88,8 @@ body {
     box-shadow: 1px 2px 10px rgba(0, 0, 0, .20);    -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 50px;
-    border: 10;
-    margin-bottom: 1rem;
+    border: 10;    
     margin-left: 0.5rem;
+
 }
+

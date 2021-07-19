@@ -87,6 +87,7 @@ figure.effect-julia:hover p {
 }
 
 #packages-img-container{
+    position: relative;
     border-radius: 25px;
     width: 300px;
     height: 300px;
@@ -128,6 +129,12 @@ img{
     max-width: 100%;
 }
 
+.cap {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+
+}
 .gallery-slider figure figcaption {
     padding: 1em;
     color: #fff;
@@ -172,7 +179,8 @@ img{
 
 .gallery-slider figure h2,
 .gallery-slider figure p {
-    margin: 0;
+    text-align: center;
+    margin: auto;
 }
 
 .gallery-slider figure p {
