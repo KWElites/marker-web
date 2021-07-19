@@ -1,6 +1,8 @@
+{% extends 'navbar.html' %}
 <!DOCTYPE html>
 <html lang="en">
 
+{% block content %}
 {%load static%}
 <head>
         <meta charset="UTF-8">
@@ -41,7 +43,7 @@
                     <figure id="packages-img-container" class="effect-julia item my-img-container">
                         <img src={{package.packageThumbnail.url}}>
                             <figcaption>
-                                <div>
+                                <div class="cap">
                                     <p>{{package.packageName}}</p>
                                 </div>
                                 <a href="{% url 'package' package.id %}"> </a>
@@ -70,4 +72,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     </body>
+    {% endblock content%}
 </html>

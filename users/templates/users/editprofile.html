@@ -1,6 +1,9 @@
+{% extends 'navbar.html' %}
 <!DOCTYPE html>
 <html>
     {%load static%}
+    {% block content %}
+
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="{% static 'StyleSheets/EditProfile.css' %}"/> 
@@ -12,11 +15,10 @@
     <body>
         <div class="container">
 
-            <div class="row gutters">
-                
+                                
                 <!-- User Info -->
-                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-                <div class="card h-100">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                <div class="card h-80 user-card">
                     <div class="card-body">
                         <div class="vendor-profile">
                             <div class="profile-info">
@@ -32,8 +34,8 @@
                 </div>
 
                 
-                <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-                    <div class="card h-50">
+                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
+                    <div class="card h-40 edit-card">
                         <div class="card-body">
                             <form method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
@@ -85,7 +87,7 @@
                                         </div>
                                     </div>
 
-                                </div>
+                                </div> <br>
 
                                 <!-- Submit Button -->
                                 <div class="row gutters">
@@ -97,10 +99,9 @@
                                 </div>    
 
                             </form>
-                        </div> <br><br>
+                        </div>
                     </div>
-
-
+                    <br>
                     <div class="card h-50">
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
@@ -144,7 +145,8 @@
                     </div>
                 </div>
 
-            </div>
         </div>
     </body>
+    {% endblock content %}
+
 </html>
