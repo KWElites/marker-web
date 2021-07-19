@@ -1,0 +1,26 @@
+body {
+    padding-top: 70px;
+}
+
+.nav > li > a:hover {
+    background-color: transparent  !important;;
+    color: white;
+}
+
+.nav > li > a:focus {
+    background-color: transparent  !important;;
+    color: white;
+}
+
+.nav > li > a {
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+.navbar-nav > li > a {
+    padding-top: 5px !important;
+    padding-bottom:5px !important;}
+
+.navbar {
+    min-height:32px !important
+}
