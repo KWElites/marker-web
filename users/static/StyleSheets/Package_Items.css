@@ -133,8 +133,8 @@ img{
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-
 }
+
 .gallery-slider figure figcaption {
     padding: 1em;
     color: #fff;
