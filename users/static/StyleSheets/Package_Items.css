@@ -65,10 +65,14 @@ figure.effect-julia:hover p:nth-of-type(3) {
 }
 
 figure.effect-julia:hover img {
-    opacity: 0.4;
     -webkit-transform: scale3d(1.1,1.1,1);
     transform: scale3d(1.1,1.1,1);
 }
+
+figure.effect-julia:hover .img-opacity {
+    opacity: 0.4;
+}
+
 
 figure.effect-julia:hover p {
     opacity: 1;

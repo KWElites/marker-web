@@ -41,7 +41,7 @@
                     <!-- List of Packages -->
                     {% for package in user_packages %}
                     <figure id="packages-img-container" class="effect-julia item my-img-container">
-                        <img src={{package.packageThumbnail.url}}>
+                        <img class="img-opacity" src={{package.packageThumbnail.url}}>
                             <figcaption>
                                 <div class="cap">
                                     <p>{{package.packageName}}</p>
