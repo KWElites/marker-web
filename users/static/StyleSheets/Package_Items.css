@@ -102,8 +102,10 @@ figure.effect-julia:hover p {
     vertical-align: middle;
 }
 
-img{
+img {
     max-width: 100%;
+    display:block;
+    margin:auto;
 }
 
 .gallery-slider figure {
@@ -131,6 +133,7 @@ img{
     position: relative;
     min-height: 100%;
     max-width: 100%;
+    
 }
 
 .cap {
@@ -198,5 +201,4 @@ img{
     width: 40px;
     border: 1px solid black;
     border-radius: 50%;
-
 }
