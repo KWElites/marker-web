@@ -65,10 +65,14 @@ figure.effect-julia:hover p:nth-of-type(3) {
 }
 
 figure.effect-julia:hover img {
-    opacity: 0.4;
     -webkit-transform: scale3d(1.1,1.1,1);
     transform: scale3d(1.1,1.1,1);
 }
+
+figure.effect-julia:hover .img-opacity {
+    opacity: 0.4;
+}
+
 
 figure.effect-julia:hover p {
     opacity: 1;
@@ -87,6 +91,7 @@ figure.effect-julia:hover p {
 }
 
 #packages-img-container{
+    position: relative;
     border-radius: 25px;
     width: 300px;
     height: 300px;
@@ -97,8 +102,10 @@ figure.effect-julia:hover p {
     vertical-align: middle;
 }
 
-img{
+img {
     max-width: 100%;
+    display:block;
+    margin:auto;
 }
 
 .gallery-slider figure {
@@ -126,6 +133,13 @@ img{
     position: relative;
     min-height: 100%;
     max-width: 100%;
+    
+}
+
+.cap {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .gallery-slider figure figcaption {
@@ -172,10 +186,19 @@ img{
 
 .gallery-slider figure h2,
 .gallery-slider figure p {
-    margin: 0;
+    text-align: center;
+    margin: auto;
 }
 
 .gallery-slider figure p {
     letter-spacing: 1px;
     font-size: 68.5%;
+}
+
+#up-button{
+    display:block;
+    height: 40px;
+    width: 40px;
+    border: 1px solid black;
+    border-radius: 50%;
 }

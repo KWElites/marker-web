@@ -1,7 +1,7 @@
 import zipfile
 
 def validZip(uploadedZip):
-    validExtensions = ['jpg', 'png', 'jpeg', 'obj', 'md2', 'g3d', 'g3dt']
+    validExtensions = ['jpg', 'png', 'jpeg', 'obj', 'mtl']
     with zipfile.ZipFile(uploadedZip, 'r') as z:
         for i in z.namelist():
             tempFileType = i.split('.')[-1]

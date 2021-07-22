@@ -1,6 +1,9 @@
+{% extends 'navbar.html' %}
 <!DOCTYPE html>
 <html>
     {%load static%}
+    {% block content %}
+
     <head>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="{% static 'StyleSheets/EditProfile.css' %}"/> 
@@ -12,11 +15,10 @@
     <body>
         <div class="container">
 
-            <div class="row gutters">
-                
+                                
                 <!-- User Info -->
-                <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-                <div class="card h-100">
+                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
+                <div class="card h-80 user-card">
                     <div class="card-body">
                         <div class="vendor-profile">
                             <div class="profile-info">
@@ -32,14 +34,15 @@
                 </div>
 
                 
-                <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-                    <div class="card h-55">
+                <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12 col-12">
+                    <div class="card h-40 edit-card">
                         <div class="card-body">
-
-                            <!-- Profile Details -->
-                            <div class="row gutters">
-                                <form method="POST" enctype="multipart/form-data">
-                                    {% csrf_token %}
+                            <form method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                
+                                <!-- Profile Details -->
+                                <div class="row gutters">
+                                        
                                     <!-- Form Title -->
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                         <h4 class="mb-4 text-primary">Profile Details</h4>
@@ -84,30 +87,35 @@
                                         </div>
                                     </div>
 
+                                </div> <br>
 
-                                    <!-- Submit Button -->
+                                <!-- Submit Button -->
+                                <div class="row gutters">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                         <button type="submit" id="save-btn" name="save_details" class="btn btn-dark float-right">Save</button>
                                         {{pform.errors}}
                                         {{ pform.non_field_errors }}
                                     </div>
-                                </form>
-                            </div> <br><br>
+                                </div>    
+
+                            </form>
                         </div>
                     </div>
+                    <br>
+                    <div class="card h-50">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                
+                                <!-- Change Password -->
+                                <div class="row gutters">
+                                
+                                    <!-- Title -->
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <h4 class="mt-3 mb-4 text-primary">Change Password</h4>
+                                    </div>
 
-                    <div class="card h-30">
-                        <div class="card-body">
-                            <!-- Change Password -->
-                            <div class="row gutters">
-                                <!-- Title -->
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <h4 class="mt-3 mb-4 text-primary">Change Password</h4>
-                                </div>
-
-                                <!-- Password Form -->
-                                <form method="POST" enctype="multipart/form-data">
-                                    {% csrf_token %}
+                                    <!-- Password Form -->
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                         <div class="form-group">
                                             {{passChangeForm.non_field_errors}}
@@ -122,21 +130,23 @@
                                             {%endfor%}
                                         </div>
                                     </div>
-                            </div>
-
-                            <!--Update Button -->
-                            <div class="row gutters">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <button id="update-btn" type="submit" name="change_pass" class="btn btn-dark float-right">Update</button>
                                 </div>
+
+                                <!--Update Button -->
+                                <div class="row gutters">
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                        <button id="update-btn" type="submit" name="change_pass" class="btn btn-dark float-right">Update</button>
+                                    </div>
+                                </div>
+
                             </div>
                         </form>
 
-                        </div>
                     </div>
                 </div>
 
-            </div>
         </div>
     </body>
+    {% endblock content %}
+
 </html>

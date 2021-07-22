@@ -1,6 +1,8 @@
+{% extends 'navbar.html' %}
 <!DOCTYPE html>
 <html lang="en">
 
+{% block content %}
 {%load static%}
 <head>
         <meta charset="UTF-8">
@@ -32,21 +34,31 @@
             </center>
             <hr class="break-line"><br>
 
-            <!-- List of packages -->
+            <!-- Packages -->
             <div class="mx-auto position-relative gallery-container">
                 <div class="mx-auto p-gallery gallery-slider">       
                     
+                    <!-- List of Packages -->
                     {% for package in user_packages %}
                     <figure id="packages-img-container" class="effect-julia item my-img-container">
-                        <img src={{package.packageThumbnail.url}}>
+                        <img class="img-opacity" src={{package.packageThumbnail.url}}>
                             <figcaption>
-                                <div>
+                                <div class="cap">
                                     <p>{{package.packageName}}</p>
                                 </div>
                                 <a href="{% url 'package' package.id %}"> </a>
                             </figcaption>
                     </figure>
                     {% endfor %}     
+
+                    <!-- Upload Button -->
+                    {% if request.user.is_authenticated and request.user.username == user.username %}
+                        <form action="{% url 'upload' %}">
+                            <button type="submit" id="up-button" class="btn btn-default btn-sm">
+                                <span class="add-btn glyphicon glyphicon-plus"></span>
+                            </button>
+                        </form>
+                    {%endif%}  
                 
                 </div>
             </div> 
@@ -60,4 +72,5 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     </body>
+    {% endblock content%}
 </html>

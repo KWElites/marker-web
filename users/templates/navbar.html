@@ -1,0 +1,43 @@
+<html>
+  {%load static%}
+
+    <head>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">    
+        <link rel="stylesheet" href="{% static 'StyleSheets/Navbar.css' %}"/> 
+    </head>
+
+    <body>
+      <nav class="navbar navbar-fixed-top navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">Marker</a>
+        
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collaps" aria-controls="navbarcontent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarcontent">
+          <ul class="nav navbar-nav navbar-right">
+
+            {% if request.user.is_authenticated %}
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'profile'  user.get_username %}"> {{ user.get_username }} </a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+            {% else %}
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'register' %}">Register</a>
+              </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{% url 'login' %}">Log In</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+      {% block content %}
+      {% endblock content%}
+    </body>
+
+</html>

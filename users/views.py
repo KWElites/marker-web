@@ -60,8 +60,9 @@ def logoutUser(request):
 
 def homePage(request):
     context = {}
-    packages = Package.objects.order_by('-id')[:2]
+    packages = Package.objects.order_by('-id')[:3]
     context["packages"] = packages
+    context["title"] = "Recently Uploaded Packages"
 
     if request.method == 'POST' and request.POST.get('searchBarText') != "":
         searchText = request.POST.get('searchBarText')
@@ -71,6 +72,7 @@ def homePage(request):
         for profile in userProfiles:
             packages|=(Package.objects.filter(uId_id=profile.user_id))
         context["packages"] = packages
+        context["title"] = "Search Result"
     if request.user.is_authenticated:
         user = request.user
         userProfile = UserProfile.objects.get(user_id = user.id)
@@ -137,6 +139,8 @@ def editProfile(request):
 def uploadPage(request):
     uploadForm = UploadPackageForm()
     storeForm = StoreForm()
+    errMsg1 = ""
+    errMsg2 = ""
     if request.method == 'POST':
         uploadForm = UploadPackageForm(request.POST,request.FILES)
         storeForm = StoreForm(request.POST)
@@ -156,18 +160,22 @@ def uploadPage(request):
             fileType = fileType.lower()
             
             if fileType != 'zip' or validZip(uploadedPackage.packageItems) == False:
-                return redirect('upload')
-            
-            uploadedPackage.save()
+                errMsg1 = "File contains unsupported format or is not .zip"
+                errMsg2 = "Supported Formats (\'.obj\',\'.mtl\',\'.png\',\'.jpg\',\'.jpeg\')"
+                #return redirect('upload')
+            else:
+                uploadedPackage.save()
 
-            #print(uploadedPackage.packageItems.url)
-            extractPackage(uploadedPackage)
-            print('package '+uploadedPackage.packageName+' saved')
-            return redirect('home')
+                #print(uploadedPackage.packageItems.url)
+                extractPackage(uploadedPackage)
+                print('package '+uploadedPackage.packageName+' saved')
+                return redirect('home')
     
     context={
         'packageForm' : uploadForm,
-        'storeForm' : storeForm
+        'storeForm' : storeForm,
+        'errMsg1' : errMsg1,
+        'errMsg2' : errMsg2
     }
     return render(request, 'users/upload.html', context)
 
