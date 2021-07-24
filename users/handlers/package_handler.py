@@ -21,6 +21,7 @@ def extractPackage(uploadedZip):
 def getPackageItems(zip_path, path):
     validExtensions = ['jpg','png','jpeg']
     image_list = []
+    folder_name = "Preview"
     with zipfile.ZipFile(zip_path,'r') as z:
         for file in z.namelist():
             print(file)
@@ -28,7 +29,8 @@ def getPackageItems(zip_path, path):
             ext = ext.lower()
             if ext in validExtensions:
                 img_path = (path+'/'+file).replace(" ", "%20")
-                image_list.append(img_path)
+                if img_path.find(folder_name) != -1:
+                    image_list.append(img_path)
     return image_list
 
 def generatePackageQRCode(host, file_name):
