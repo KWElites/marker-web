@@ -80,11 +80,18 @@
             <div class="mx-auto position-relative gallery-container">
             <div class="mx-auto gallery-slider">       
                 
-                {%for item in package_items %}
-                <figure id="package-img-container"class="effect-julia item my-img-container">
-                    <img src={{media_url}}{{item}}>
-                </figure>
-                {% endfor %}     
+                <div class="container">
+                    <div class="row">
+                        {%for item in package_items %}
+                        <div class="col-4"> 
+                        <figure id="package-img-container"class="effect-julia item my-img-container">
+                            <img src={{media_url}}{{item}}>
+                        </figure>
+                        </div>
+                        {% endfor %} 
+                    </div>
+                </div>
+                    
             
             </div>
             </div>                
